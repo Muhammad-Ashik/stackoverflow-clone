@@ -5,9 +5,11 @@
   "username": "postgres",
   "password": "postgres",
   "database": "stackoverflow_clone_dev",
-  "entities": ["src/entities/*.ts"],
-  "migrations": ["src/migrations/*.ts"],
+  "entities": ["./entities/*.ts"],
+  "migrations": ["./migrations/*.ts"],
   "cli": {
-    "migrationsDir": "src/migrations"
+    "entitiesDir": "./entity",
+    "migrationsDir": "./migration",
+    "subscribersDir": "./subscriber"
   }
 }

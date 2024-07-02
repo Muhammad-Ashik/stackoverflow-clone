@@ -24,7 +24,7 @@ services:
       - DB_NAME=stackoverflow_clone_dev
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - DB_HOST=postgres-db
+      - DB_HOST=db
     ports:
       - "4000:4000"
     volumes:

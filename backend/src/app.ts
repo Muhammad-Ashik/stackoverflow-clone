@@ -3,9 +3,8 @@ import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import helmet from "helmet";
 import "reflect-metadata";
-import AppDataSource from "./config/database";
-import { User } from "./entities/Users";
-import test from "./routes/test";
+import AppDataSource from "./database";
+import { User } from "./entities/User";
 
 const app: Application = express();
 
@@ -15,11 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Sending a response from the root route!");
+app.get("/", (_req, _res) => {
+  _res.sendFile("home.html", { root: __dirname });
 });
-
-app.get("/test", test);
 
 app.get("/users", async (req: Request, res: Response) => {
   try {

@@ -8,8 +8,8 @@ const AppDataSource = new DataSource({
   database: "stackoverflow_clone_dev",
   synchronize: true,
   logging: false,
-  migrations: ["src/migration/**/*.ts"],
-  entities: ["src/entities/**/*.ts"],
+  migrations: ["./src/migrations/**/*.ts"],
+  entities: ["./src/entities/**/*.ts"],
 });
 
 export default AppDataSource;
