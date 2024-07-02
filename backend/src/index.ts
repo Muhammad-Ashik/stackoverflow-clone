@@ -1,17 +1,17 @@
 import app from "./app";
-import { sequelize } from "./database/database";
+import AppDataSource from "./config/database";
 
-const PORT = process.env.PORT || 3000;
+const PORT = 4000;
 
 // Start the server
 app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
-  await sequelize
-    .authenticate()
+  // to initialize the initial connection with the database, register all entities
+  // and "synchronize" database schema, call "initialize()" method of a newly created database
+  // once in your application bootstrap
+  AppDataSource.initialize()
     .then(() => {
-      console.log("Connection has been established successfully.");
+      console.log("Database connected!");
     })
-    .catch((error) => {
-      console.error("Unable to connect to the database:", error);
-    });
+    .catch((error) => console.log(error));
 });
