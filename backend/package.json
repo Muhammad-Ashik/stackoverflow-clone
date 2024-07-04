@@ -13,7 +13,8 @@
     "migration:show": "yarn run typeorm migration:show",
     "migration:run": "yarn run typeorm migration:run",
     "migration:revert": "yarn run typeorm migration:revert",
-    "migration:create": "typeorm-ts-node-commonjs migration:create ./src/migrations"
+    "migration:create": "typeorm-ts-node-commonjs migration:create ./src/migrations",
+    "typeorm:generate": "ts-node generateMigration.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

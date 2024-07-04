@@ -1,10 +1,10 @@
 {
   "type": "postgres",
-  "host": "db",
+  "host": "stackoverflow-db",
   "port": 5432,
   "username": "postgres",
   "password": "postgres",
-  "database": "stackoverflow_clone_dev",
+  "database": "stackoverflow-db",
   "entities": ["./entities/*.ts"],
   "migrations": ["./migrations/*.ts"],
   "cli": {
