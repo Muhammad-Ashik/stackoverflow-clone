@@ -4,17 +4,17 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --poll --files --respawn src/index.ts",
+    "dev": "ts-node-dev --env-file=.env --poll --files --respawn src/index.ts",
     "start": "node dist/index.js",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "typeorm": "typeorm-ts-node-commonjs -d ./src/database.ts",
+    "typeorm": "typeorm-ts-node-commonjs -d ./src/config/databaseConfig.ts",
     "migration:generate": "yarn run typeorm migration:generate ./src/migrations",
     "migration:show": "yarn run typeorm migration:show",
     "migration:run": "yarn run typeorm migration:run",
     "migration:revert": "yarn run typeorm migration:revert",
     "migration:create": "typeorm-ts-node-commonjs migration:create ./src/migrations",
-    "typeorm:generate": "ts-node generateMigration.ts"
+    "typeorm:generate": "ts-node ./src/helper/generateMigration.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

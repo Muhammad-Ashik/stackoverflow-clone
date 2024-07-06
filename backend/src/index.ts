@@ -1,11 +1,11 @@
 import app from "./app";
-import AppDataSource from "./database";
+import AppDataSource from "./config/databaseConfig";
 
-const PORT = 4000;
+const PORT = process.env.SERVER_PORT || 5000;
 
 AppDataSource.initialize()
   .then(() => {
-    console.log("Data Source has been initialized!");
+    console.log("Database has been initialized!");
 
     // Start your Express server after the DB connection is established
     app.listen(PORT, () => {

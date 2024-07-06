@@ -3,7 +3,7 @@ import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import helmet from "helmet";
 import "reflect-metadata";
-import AppDataSource from "./database";
+import AppDataSource from "./config/databaseConfig";
 import { User } from "./entities/User";
 
 const app: Application = express();

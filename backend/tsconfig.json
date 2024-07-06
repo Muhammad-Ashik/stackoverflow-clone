@@ -13,6 +13,6 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false
   },
-  "include": ["generateMigration.ts", "src/**/*.ts"],
+  "include": ["src/helper/generateMigration.ts", "src/**/*.ts"],
   "exclude": ["node_modules"]
 }

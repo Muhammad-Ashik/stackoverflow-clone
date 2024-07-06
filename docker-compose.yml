@@ -3,10 +3,12 @@ services:
     image: postgres
     container_name: stackoverflow-db
     restart: on-failure
+    env_file:
+      - ./backend/.env
     environment:
-      POSTGRES_DB: stackoverflow-db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${DB}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -18,12 +20,15 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - stackoverflow-db
+    env_file:
+      - ./backend/.env
     environment:
       - NODE_ENV=development
-      - DB_NAME=stackoverflow-db
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_HOST=stackoverflow-db
+      - DB_NAME=${DB}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB}
+      - DB_PORT=${DB_PORT}
     ports:
       - "4000:4000"
     volumes:
