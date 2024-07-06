@@ -8,7 +8,10 @@ if (!migrationName) {
 }
 
 try {
-  execSync(`yarn run typeorm migration:generate ./src/migrations/${migrationName}`, { stdio: 'inherit' });
+  execSync(
+    `yarn run typeorm migration:generate ./src/migrations/${migrationName}`,
+    { stdio: 'inherit' },
+  );
   console.log('Migration generated successfully.');
 } catch (error) {
   console.error('Error generating migration:', (error as Error).message);
