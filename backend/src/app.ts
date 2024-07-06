@@ -1,10 +1,10 @@
 // backend/app.ts
-import cors from "cors";
-import express, { Application, Request, Response } from "express";
-import helmet from "helmet";
-import "reflect-metadata";
-import AppDataSource from "./config/databaseConfig";
-import { User } from "./entities/User";
+import cors from 'cors';
+import express, { Application, Request, Response } from 'express';
+import helmet from 'helmet';
+import 'reflect-metadata';
+import AppDataSource from './config/databaseConfig';
+import { User } from './entities/User';
 
 const app: Application = express();
 
@@ -14,11 +14,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
 
-app.get("/", (_req, _res) => {
-  _res.sendFile("home.html", { root: __dirname });
+app.get('/', (_req, _res) => {
+  _res.sendFile('home.html', { root: __dirname });
 });
 
-app.get("/users", async (req: Request, res: Response) => {
+app.get('/users', async (req: Request, res: Response) => {
   try {
     const userRepo = AppDataSource.getRepository(User);
     const users = await userRepo.find();
