@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
@@ -30,7 +30,7 @@ services:
       - DB_HOST=${DB}
       - DB_PORT=${DB_PORT}
     ports:
-      - "4000:4000"
+      - "${SERVER_PORT}:${SERVER_PORT}"
     volumes:
       - ./backend:/app
       - /app/node_modules
