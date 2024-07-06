@@ -14,7 +14,10 @@
     "migration:revert": "yarn run typeorm migration:revert",
     "migration:create": "typeorm-ts-node-commonjs migration:create ./src/migrations",
     "typeorm:generate": "ts-node ./src/helper/generateMigration.ts",
-    "lint": "eslint ."
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix",
+    "prepare": "cd .. && husky backend/.husky",
+    "pre-commit": "lint-staged"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^7.15.0",
@@ -26,6 +29,7 @@
     "express": "^4.19.2",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
+    "lint-staged": "^15.2.7",
     "pg": "^8.12.0",
     "reflect-metadata": "^0.2.2"
   },
@@ -37,10 +41,16 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.14.9",
     "globals": "^15.8.0",
+    "husky": "^9.0.11",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typeorm": "^0.3.20",
     "typescript": "^5.5.2",
     "typescript-eslint": "^7.15.0"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "yarn lint:fix"
+    ]
   }
 }
