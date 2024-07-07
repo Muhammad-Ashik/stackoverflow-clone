@@ -62,7 +62,6 @@ export default [
       '@typescript-eslint/ban-types': 0,
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars-experimental': 'off',
-      'no-unused-vars': 'off',
       'no-control-regex': 0,
       'import/prefer-default-export': 'off',
     },

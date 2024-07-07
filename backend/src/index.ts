@@ -1,5 +1,5 @@
 import app from './app';
-// import AppDataSource from './config/databaseConfig';
+import AppDataSource from './config/databaseConfig';
 
 const PORT = process.env.SERVER_PORT || 5000;
 
@@ -8,10 +8,10 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-// AppDataSource.initialize()
-//   .then(() => {
-//     console.log('Database has been initialized!');
-//   })
-//   .catch((err) => {
-//     console.error('Error during Data Source initialization:', err);
-//   });
+AppDataSource.initialize()
+  .then(() => {
+    console.log('Database has been initialized!');
+  })
+  .catch((err) => {
+    console.error('Error during Data Source initialization:', err);
+  });
