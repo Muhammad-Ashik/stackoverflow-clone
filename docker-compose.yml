@@ -4,7 +4,7 @@ services:
     container_name: stackoverflow-db
     restart: on-failure
     env_file:
-      - ./backend/.env
+      - .env.prod
     environment:
       POSTGRES_DB: ${DB}
       POSTGRES_USER: ${DB_USER}
@@ -21,7 +21,7 @@ services:
     depends_on:
       - stackoverflow-db
     env_file:
-      - ./backend/.env
+      - .env.prod
     environment:
       - NODE_ENV=development
       - DB_NAME=${DB}
