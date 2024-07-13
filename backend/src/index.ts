@@ -1,7 +1,7 @@
 import app from './app';
 import AppDataSource from './config/databaseConfig';
 
-const PORT = process.env.SERVER_PORT || 5000;
+const PORT = process.env.BACKEND_PORT || 4000;
 
 // Start your Express server after the DB connection is established
 app.listen(PORT, () => {
