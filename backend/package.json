@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --env-file=.env.dev --poll --files --respawn src/index.ts",
-    "prod": "ts-node-dev --env-file=.env.prod --poll --files --respawn src/index.ts",
+    "prod": "ts-node-dev --poll --files --respawn src/index.ts",
     "start": "node dist/index.js",
     "build": "tsc",
     "typeorm": "typeorm-ts-node-commonjs -d ./src/config/databaseConfig.ts",
