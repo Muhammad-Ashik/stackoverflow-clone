@@ -18,6 +18,8 @@ services:
       - stackoverflow-db
     env_file:
       - ./backend/prod.env
+    environment:
+      - NODE_ENV=production
     ports:
       - "4000:4000"
     volumes:
