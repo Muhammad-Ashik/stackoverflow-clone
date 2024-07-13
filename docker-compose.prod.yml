@@ -13,7 +13,7 @@ services:
   stackoverflow-backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     depends_on:
       - stackoverflow-db
     env_file:
@@ -24,7 +24,7 @@ services:
       - ./backend:/app
       - /app/node_modules
     container_name: stackoverflow-backend
-    command: yarn run dev
+    command: yarn run prod
     restart: on-failure
 
 volumes:
