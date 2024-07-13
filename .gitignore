@@ -26,6 +26,4 @@ out/
 Thumbs.db
 
 # env file
-.env
-.env.dev
-.env.prod
+**.env
