@@ -10,8 +10,18 @@ app.listen(PORT, () => {
 });
 
 AppDataSource.initialize()
-  .then(() => {
+  .then(async () => {
     console.log('Database has been initialized!');
+    await AppDataSource.dropDatabase().then(() => {
+      console.log('Database has been dropped');
+    });
+    await AppDataSource.runMigrations()
+      .then(() => {
+        console.log('Database migrations have been run!');
+      })
+      .catch((err) => {
+        console.error('Error during Data Source migration:', err);
+      });
   })
   .catch((err) => {
     console.error('Error during Data Source initialization:', err);
