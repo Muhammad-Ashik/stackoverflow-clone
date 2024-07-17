@@ -16,6 +16,7 @@
     "migration:revert": "yarn run typeorm migration:revert",
     "migration:create": "typeorm-ts-node-commonjs migration:create ./src/migrations",
     "typeorm:generate": "ts-node ./src/helper/generateMigration.ts",
+    "typeorm:drop": "typeorm-ts-node-commonjs -d ./src/config/databaseConfig.ts schema:drop",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
     "prepare": "cd .. && husky backend/.husky",
