@@ -14,7 +14,7 @@
     "migration:show": "yarn run typeorm migration:show",
     "migration:run": "yarn run typeorm migration:run",
     "migration:revert": "yarn run typeorm migration:revert",
-    "migration:create": "typeorm-ts-node-commonjs migration:create ./src/migrations",
+    "migration:create": "typeorm-ts-node-commonjs migration:create ./src/migrations/migration",
     "typeorm:generate": "ts-node ./src/helper/generateMigration.ts",
     "typeorm:drop": "typeorm-ts-node-commonjs -d ./src/config/databaseConfig.ts schema:drop",
     "lint": "eslint . --max-warnings=0",
