@@ -2,6 +2,7 @@ import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
 import 'express-async-errors';
 import helmet from 'helmet';
+import path from 'path';
 import 'reflect-metadata';
 import AppDataSource from './config/databaseConfig';
 import { envConfig } from './config/env.config';
@@ -19,8 +20,24 @@ import { ApiResponse, HealthCheckResponse } from './types';
 
 const app: Application = express();
 
-// Security middleware
-app.use(helmet());
+// Security middleware - Configure Helmet with CSP for external assets
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        connectSrc: ["'self'"],
+        fontSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'none'"],
+      },
+    },
+  }),
+);
 app.use(
   cors({
     origin:
@@ -36,6 +53,9 @@ app.use(
 // Body parsing middleware
 app.use(express.json({ limit: REQUEST.BODY_LIMIT }));
 app.use(express.urlencoded({ extended: true, limit: REQUEST.BODY_LIMIT }));
+
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Request ID and logging
 if (envConfig.NODE_ENV !== 'test') {
@@ -76,7 +96,7 @@ app.get('/health', async (_req: Request, res: Response) => {
 
 // Home route
 app.get('/', (_req: Request, res: Response) => {
-  res.sendFile('home.html', { root: __dirname });
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // API routes

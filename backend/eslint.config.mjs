@@ -12,6 +12,14 @@ export default [
       globals: globals.node,
     },
   },
+  // Browser environment for public folder
+  {
+    files: ['src/public/**/*.js'],
+    languageOptions: {
+      globals: globals.browser,
+      sourceType: 'script',
+    },
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.configs.stylistic,
