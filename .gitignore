@@ -25,5 +25,8 @@ out/
 .DS_Store
 Thumbs.db
 
-# env file
-**.env
+# Environment files (but keep .env.example)
+*.env
+!.env.example
+backend/dev.env
+backend/prod.env

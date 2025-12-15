@@ -1,6 +1,6 @@
 services:
   stackoverflow-db:
-    image: postgres
+    image: postgres:15
     container_name: stackoverflow-db
     restart: on-failure
     env_file:

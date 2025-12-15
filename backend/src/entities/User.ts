@@ -1,25 +1,55 @@
 import bcrypt from 'bcryptjs';
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { PASSWORD } from '../constants';
 
-@Entity()
+@Entity('user')
+@Index(['email'], { unique: true })
 export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   name!: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, unique: true })
   email!: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, select: false })
   password!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   googleId?: string;
 
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt!: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updatedAt!: Date;
+
   @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 8);
+  async hashPasswordBeforeInsert() {
+    if (this.password && !this.password.startsWith(PASSWORD.BCRYPT_PREFIX)) {
+      this.password = await bcrypt.hash(this.password, PASSWORD.BCRYPT_ROUNDS);
+    }
+  }
+
+  @BeforeUpdate()
+  async hashPasswordBeforeUpdate() {
+    if (this.password && !this.password.startsWith(PASSWORD.BCRYPT_PREFIX)) {
+      this.password = await bcrypt.hash(this.password, PASSWORD.BCRYPT_ROUNDS);
+    }
   }
 }

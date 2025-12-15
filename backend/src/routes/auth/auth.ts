@@ -1,30 +1,56 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
+import { asyncHandler } from '../../middleware/error.middleware';
+import { validateDto } from '../../middleware/validation.middleware';
 import {
   loginUser,
   registerUser,
 } from '../../services/auth-services/AuthServices';
+import { LoginDto } from '../../dto/login.dto';
+import { RegisterDto } from '../../dto/register.dto';
+import { HTTP_STATUS, SUCCESS_MESSAGES } from '../../constants';
+import { ApiResponse, UserResponse, AuthResponse } from '../../types';
 
 const router = Router();
 
-router.post('/register', async (_req, res) => {
-  const { name, email, password } = _req.body;
-  const user = await registerUser(name, email, password);
-  if (!user) {
-    return res.status(400).json({ message: 'User already exists' });
-  } else {
-    const { email, id, name, googleId } = user;
-    return res.status(200).json({ email, id, name, googleId });
-  }
-});
+router.post(
+  '/register',
+  validateDto(RegisterDto),
+  asyncHandler(async (req: Request, res: Response) => {
+    const { name, email, password } = req.body as RegisterDto;
+    const user = await registerUser(name, email, password);
 
-router.post('/login', async (_req, res) => {
-  const { email, password } = _req.body;
-  const token = await loginUser(email, password);
-  if (!token) {
-    return res.status(400).json({ message: 'Invalid credentials' });
-  } else {
-    return res.status(200).json({ token });
-  }
-});
+    const response: ApiResponse<UserResponse> = {
+      success: true,
+      message: SUCCESS_MESSAGES.USER.REGISTERED,
+      data: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        googleId: user.googleId,
+      },
+    };
+
+    res.status(HTTP_STATUS.CREATED).json(response);
+  }),
+);
+
+router.post(
+  '/login',
+  validateDto(LoginDto),
+  asyncHandler(async (req: Request, res: Response) => {
+    const { email, password } = req.body as LoginDto;
+    const token = await loginUser(email, password);
+
+    const response: ApiResponse<AuthResponse> = {
+      success: true,
+      message: SUCCESS_MESSAGES.USER.LOGIN,
+      data: {
+        token,
+      },
+    };
+
+    res.status(HTTP_STATUS.OK).json(response);
+  }),
+);
 
 export default router;
