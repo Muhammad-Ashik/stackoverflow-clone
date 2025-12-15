@@ -22,22 +22,49 @@ interface EnvConfig {
   CORS_ORIGIN?: string;
 }
 
-const requiredEnvVars = [
-  'DB_HOST',
-  'DB_USER',
-  'DB_PASSWORD',
-  'DB',
-  'JWT_SECRET',
-];
+const requiredEnvVars = ['JWT_SECRET'];
+
+// In production, we need either DB_URL or individual DB credentials
+const requiredDBVars = ['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB'];
 
 function validateEnv(): EnvConfig {
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  // Check required vars
   const missingVars = requiredEnvVars.filter(
     (varName) => !process.env[varName],
   );
 
+  // Check DB configuration
+  const hasDbUrl = !!process.env.DB_URL;
+  const hasIndividualDbConfig = requiredDBVars.every(
+    (varName) => !!process.env[varName],
+  );
+
+  if (!hasDbUrl && !hasIndividualDbConfig) {
+    const missingDbVars = requiredDBVars.filter(
+      (varName) => !process.env[varName],
+    );
+    throw new Error(
+      `Missing database configuration. Either provide DATABASE_URL or all of: ${missingDbVars.join(', ')}`,
+    );
+  }
+
   if (missingVars.length > 0) {
     throw new Error(
       `Missing required environment variables: ${missingVars.join(', ')}`,
+    );
+  }
+
+  // Log configuration (without sensitive data) in production for debugging
+  if (isProduction) {
+    console.log('Environment Configuration:');
+    console.log('- NODE_ENV:', process.env.NODE_ENV);
+    console.log('- DB_HOST:', process.env.DB_HOST ? '✓ Set' : '✗ Not set');
+    console.log('- DB_URL:', process.env.DB_URL ? '✓ Set' : '✗ Not set');
+    console.log(
+      '- JWT_SECRET:',
+      process.env.JWT_SECRET ? '✓ Set' : '✗ Not set',
     );
   }
 
@@ -51,7 +78,7 @@ function validateEnv(): EnvConfig {
     DB: process.env.DB!,
     DB_URL: process.env.DB_URL,
     JWT_SECRET: process.env.JWT_SECRET!,
-    JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN,
+    JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
     CORS_ORIGIN: process.env.CORS_ORIGIN,
   };
 }

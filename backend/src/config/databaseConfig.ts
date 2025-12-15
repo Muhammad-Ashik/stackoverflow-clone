@@ -17,14 +17,26 @@ const AppDataSource = new DataSource({
   database: envConfig.DB,
   synchronize: false,
   logging: envConfig.NODE_ENV === 'development',
-  entities: ['./src/entities/**/*.ts'],
-  migrations: ['./src/migrations/**/*.ts'],
+  entities: isProduction ? ['dist/entities/**/*.js'] : ['src/entities/**/*.ts'],
+  migrations: isProduction
+    ? ['dist/migrations/**/*.js']
+    : ['src/migrations/**/*.ts'],
+  ssl: isProduction
+    ? {
+        rejectUnauthorized: false, // Required for Render PostgreSQL
+      }
+    : false,
   extra: {
     max: poolConfig.MAX,
     min: poolConfig.MIN,
     idleTimeoutMillis: DATABASE.CONNECTION_POOL.IDLE_TIMEOUT,
     connectionTimeoutMillis: DATABASE.CONNECTION_POOL.CONNECTION_TIMEOUT,
     maxIdleTime: DATABASE.CONNECTION_POOL.MAX_IDLE_TIME,
+    ...(isProduction && {
+      ssl: {
+        rejectUnauthorized: false, // Required for Render PostgreSQL
+      },
+    }),
   },
 });
 
