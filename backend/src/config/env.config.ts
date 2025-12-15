@@ -1,15 +1,12 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Load environment variables
-const envFile =
-  process.env.NODE_ENV === 'production'
-    ? '.env'
-    : process.env.NODE_ENV === 'staging'
-      ? 'prod.env'
-      : 'dev.env';
-
-dotenv.config({ path: path.join(__dirname, '../../', envFile) });
+// Load environment variables from file only in development
+// In production (Render), environment variables are set directly
+if (process.env.NODE_ENV !== 'production') {
+  const envFile = process.env.NODE_ENV === 'staging' ? 'prod.env' : 'dev.env';
+  dotenv.config({ path: path.join(__dirname, '../../', envFile) });
+}
 
 interface EnvConfig {
   NODE_ENV: string;

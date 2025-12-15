@@ -5,6 +5,9 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default [
+  {
+    ignores: ['dist/**', 'node_modules/**', 'build/**', '**/*.d.ts'],
+  },
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   { files: ['**/*.js'], languageOptions: { sourceType: 'commonjs' } },
   {

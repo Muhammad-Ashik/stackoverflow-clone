@@ -2,7 +2,8 @@ import app from './app';
 import AppDataSource from './config/databaseConfig';
 import { envConfig } from './config/env.config';
 
-const PORT = envConfig.BACKEND_PORT;
+// Use PORT from environment (Render provides this) or fallback to BACKEND_PORT
+const PORT = process.env.PORT || envConfig.BACKEND_PORT;
 
 async function startServer() {
   try {

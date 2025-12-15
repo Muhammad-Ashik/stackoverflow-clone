@@ -42,7 +42,7 @@ export async function withTransaction<T>(
 
     // Otherwise, wrap it in a CustomError
     throw new CustomError(
-      ERROR_MESSAGES.COMMON.INTERNAL_ERROR,
+      ERROR_MESSAGES.GENERAL.INTERNAL_ERROR,
       HTTP_STATUS.INTERNAL_SERVER_ERROR,
     );
   } finally {
