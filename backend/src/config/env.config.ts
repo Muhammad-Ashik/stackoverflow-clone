@@ -79,7 +79,7 @@ function validateEnv(): EnvConfig {
     DB_USER: process.env.DB_USER || '',
     DB_PASSWORD: process.env.DB_PASSWORD || '',
     DB: process.env.DB || '',
-    DB_URL: process.env.DB_URL,
+    DB_URL: process.env.DB_URL || process.env.DATABASE_URL, // Support both DB_URL and DATABASE_URL
     JWT_SECRET: process.env.JWT_SECRET!,
     JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
     CORS_ORIGIN: process.env.CORS_ORIGIN,
