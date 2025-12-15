@@ -35,6 +35,12 @@ function validateEnv(): EnvConfig {
     (varName) => !process.env[varName],
   );
 
+  if (missingVars.length > 0) {
+    throw new Error(
+      `Missing required environment variables: ${missingVars.join(', ')}`,
+    );
+  }
+
   // Check DB configuration
   const hasDbUrl = !!process.env.DB_URL;
   const hasIndividualDbConfig = requiredDBVars.every(
@@ -46,13 +52,7 @@ function validateEnv(): EnvConfig {
       (varName) => !process.env[varName],
     );
     throw new Error(
-      `Missing database configuration. Either provide DATABASE_URL or all of: ${missingDbVars.join(', ')}`,
-    );
-  }
-
-  if (missingVars.length > 0) {
-    throw new Error(
-      `Missing required environment variables: ${missingVars.join(', ')}`,
+      `Missing database configuration. Either provide DB_URL or all of: ${missingDbVars.join(', ')}`,
     );
   }
 
@@ -60,8 +60,11 @@ function validateEnv(): EnvConfig {
   if (isProduction) {
     console.log('Environment Configuration:');
     console.log('- NODE_ENV:', process.env.NODE_ENV);
-    console.log('- DB_HOST:', process.env.DB_HOST ? '✓ Set' : '✗ Not set');
-    console.log('- DB_URL:', process.env.DB_URL ? '✓ Set' : '✗ Not set');
+    console.log('- Using DB_URL:', hasDbUrl ? '✓ Yes' : '✗ No');
+    console.log(
+      '- Using individual DB config:',
+      hasIndividualDbConfig ? '✓ Yes' : '✗ No',
+    );
     console.log(
       '- JWT_SECRET:',
       process.env.JWT_SECRET ? '✓ Set' : '✗ Not set',
@@ -71,11 +74,11 @@ function validateEnv(): EnvConfig {
   return {
     NODE_ENV: process.env.NODE_ENV || 'development',
     BACKEND_PORT: Number(process.env.BACKEND_PORT) || 4000,
-    DB_HOST: process.env.DB_HOST!,
+    DB_HOST: process.env.DB_HOST || '',
     DB_PORT: Number(process.env.DB_PORT) || 5432,
-    DB_USER: process.env.DB_USER!,
-    DB_PASSWORD: process.env.DB_PASSWORD!,
-    DB: process.env.DB!,
+    DB_USER: process.env.DB_USER || '',
+    DB_PASSWORD: process.env.DB_PASSWORD || '',
+    DB: process.env.DB || '',
     DB_URL: process.env.DB_URL,
     JWT_SECRET: process.env.JWT_SECRET!,
     JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
