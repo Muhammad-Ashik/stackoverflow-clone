@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
-import { envConfig } from './env.config';
 import { DATABASE } from '../constants';
+import { envConfig } from './env.config';
 
 const isProduction = envConfig.NODE_ENV === 'production';
 const poolConfig = isProduction
