@@ -1,0 +1,609 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.05) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  top: -400px;
+  right: -400px;
+  animation: orb1 20s infinite ease-in-out alternate;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.08) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  bottom: -350px;
+  left: -350px;
+  animation: orb2 18s infinite ease-in-out alternate;
+  pointer-events: none;
+}
+
+.bg-shapes {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-shapes::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  top: 20%;
+  left: 10%;
+  animation: morph1 15s infinite ease-in-out;
+}
+
+.bg-shapes::after {
+  content: '';
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+  bottom: 25%;
+  right: 15%;
+  animation: morph2 12s infinite ease-in-out;
+}
+
+@keyframes orb1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-150px, 100px) scale(1.3);
+  }
+  100% {
+    transform: translate(-80px, -50px) scale(0.9);
+  }
+}
+
+@keyframes orb2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(120px, -80px) scale(1.2);
+  }
+  100% {
+    transform: translate(50px, 60px) scale(0.85);
+  }
+}
+
+@keyframes morph1 {
+  0%,
+  100% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+    transform: rotate(90deg) scale(1.1);
+  }
+  50% {
+    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+    transform: rotate(180deg) scale(0.95);
+  }
+  75% {
+    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+    transform: rotate(270deg) scale(1.05);
+  }
+}
+
+@keyframes morph2 {
+  0%,
+  100% {
+    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+    transform: rotate(0deg) scale(1) translate(0, 0);
+  }
+  33% {
+    border-radius: 41% 59% 47% 53% / 42% 58% 42% 58%;
+    transform: rotate(120deg) scale(1.15) translate(30px, -30px);
+  }
+  66% {
+    border-radius: 60% 40% 35% 65% / 48% 62% 38% 52%;
+    transform: rotate(240deg) scale(0.9) translate(-20px, 40px);
+  }
+}
+
+.navbar {
+  background: #000000;
+  border-bottom: 1px solid #333333;
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.btn-logout {
+  padding: 10px 24px;
+  background: white;
+  color: #000000;
+  border: 1px solid white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #f5f5f5;
+  transform: translateY(-2px);
+}
+
+.main-content {
+  padding: 60px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 50px;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.header-section h2 {
+  font-size: 36px;
+  color: white;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.loading {
+  text-align: center;
+  padding: 80px 20px;
+  color: white;
+}
+
+.spinner-large {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.error-container {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 20px;
+  border: 1px solid #dc2626;
+  border-radius: 4px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 500;
+  display: none;
+}
+
+.error-container.show {
+  display: block;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.table-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  animation: fadeIn 0.6s ease-out 0.2s backwards;
+}
+
+.btn-delete-selected {
+  padding: 12px 24px;
+  background: #dc2626;
+  color: white;
+  border: 1px solid #dc2626;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-delete-selected:hover:not(:disabled) {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+}
+
+.btn-delete-selected:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.table-container {
+  background: white;
+  border: 1px solid #000000;
+  overflow-x: auto;
+  margin-bottom: 40px;
+  animation: fadeIn 0.6s ease-out 0.3s backwards;
+}
+
+.mobile-users-list {
+  display: none !important;
+  gap: 16px;
+  margin-bottom: 40px;
+  animation: fadeIn 0.6s ease-out 0.3s backwards;
+}
+
+.mobile-user-card {
+  background: white;
+  border: 1px solid #000000;
+  padding: 20px;
+  animation: slideUp 0.4s ease-out backwards;
+  position: relative;
+}
+
+.mobile-user-card.selected {
+  background: #fef2f2;
+  border-color: #dc2626;
+}
+
+.mobile-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.mobile-card-checkbox {
+  flex-shrink: 0;
+}
+
+.mobile-card-checkbox input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+}
+
+.mobile-card-avatar {
+  width: 50px;
+  height: 50px;
+  background: #000000;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.mobile-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mobile-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 4px;
+}
+
+.mobile-card-email {
+  font-size: 14px;
+  color: #6b7280;
+  word-break: break-all;
+}
+
+.mobile-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobile-card-date {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.mobile-card-actions {
+  flex-shrink: 0;
+}
+
+.btn-delete-mobile {
+  padding: 10px 20px;
+  background: white;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-delete-mobile:hover {
+  background: #dc2626;
+  color: white;
+}
+
+#users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#users-table thead {
+  background: #000000;
+  color: white;
+}
+
+#users-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #000000;
+}
+
+#users-table th.checkbox-col {
+  width: 50px;
+  text-align: center;
+}
+
+#users-table th.actions-col {
+  width: 120px;
+  text-align: center;
+}
+
+#users-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+  animation: slideUp 0.4s ease-out backwards;
+}
+
+#users-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+#users-table tbody tr.selected {
+  background: #fef2f2;
+}
+
+#users-table td {
+  padding: 16px;
+  font-size: 14px;
+}
+
+#users-table td.checkbox-col {
+  text-align: center;
+}
+
+#users-table td.actions-col {
+  text-align: center;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  background: #000000;
+  color: white;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #000000;
+}
+
+.user-email {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.user-date {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.btn-delete {
+  padding: 8px 16px;
+  background: white;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+  color: white;
+  transform: translateY(-1px);
+}
+
+input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #000000;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.pagination button {
+  padding: 12px 20px;
+  background: white;
+  color: #000000;
+  border: 1px solid #000000;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #000000;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination .page-info {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 15px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .header-section h2 {
+    font-size: 28px;
+  }
+
+  .main-content {
+    padding: 40px 0;
+  }
+
+  .header-section {
+    margin-bottom: 30px;
+  }
+
+  .table-container {
+    display: none !important;
+  }
+
+  .mobile-users-list {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+
+  .table-controls {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-delete-selected {
+    width: 100%;
+  }
+
+  .pagination button {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .pagination .page-info {
+    padding: 0 10px;
+    font-size: 13px;
+  }
+}

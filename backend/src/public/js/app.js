@@ -82,14 +82,83 @@ function hideAlert() {
   alert.className = 'alert';
 }
 
+// Show field error
+function showFieldError(fieldId, message) {
+  const input = document.getElementById(fieldId);
+  const errorElement = document.getElementById(`${fieldId}-error`);
+
+  input.classList.add('error');
+  errorElement.textContent = message;
+  errorElement.classList.add('show');
+}
+
+// Hide field error
+function hideFieldError(fieldId) {
+  const input = document.getElementById(fieldId);
+  const errorElement = document.getElementById(`${fieldId}-error`);
+
+  input.classList.remove('error');
+  errorElement.textContent = '';
+  errorElement.classList.remove('show');
+}
+
+// Clear all errors
+function clearAllErrors(formId) {
+  const form = document.getElementById(formId);
+  const inputs = form.querySelectorAll('input');
+
+  inputs.forEach((input) => {
+    hideFieldError(input.id);
+  });
+}
+
+// Validate email
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+// Validate password strength
+function isStrongPassword(password) {
+  return (
+    password.length >= 8 &&
+    /[A-Z]/.test(password) &&
+    /[a-z]/.test(password) &&
+    /\d/.test(password)
+  );
+}
+
 // Handle login
 async function handleLogin(event) {
   event.preventDefault();
   hideAlert();
+  clearAllErrors('login-form');
 
-  const email = document.getElementById('login-email').value;
+  const email = document.getElementById('login-email').value.trim();
   const password = document.getElementById('login-password').value;
   const btn = document.getElementById('login-btn');
+
+  let hasError = false;
+
+  // Validate email
+  if (!email) {
+    showFieldError('login-email', 'Email is required');
+    hasError = true;
+  } else if (!isValidEmail(email)) {
+    showFieldError('login-email', 'Please enter a valid email address');
+    hasError = true;
+  }
+
+  // Validate password
+  if (!password) {
+    showFieldError('login-password', 'Password is required');
+    hasError = true;
+  } else if (password.length < 8) {
+    showFieldError('login-password', 'Password must be at least 8 characters');
+    hasError = true;
+  }
+
+  if (hasError) return;
 
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Signing in...';
@@ -106,13 +175,12 @@ async function handleLogin(event) {
     const data = await response.json();
 
     if (response.ok && data.success) {
-      showAlert('Login successful! Welcome back! 🎉', 'success');
       localStorage.setItem('token', data.data.token);
+      showAlert('Login successful! Redirecting...', 'success');
 
       setTimeout(() => {
-        showAlert('Token saved! You can now use the API.', 'success');
-        console.log('JWT Token:', data.data.token);
-      }, 1500);
+        window.location.href = '/home.html';
+      }, 800);
     } else {
       showAlert(
         data.message || 'Invalid credentials. Please try again.',
@@ -132,33 +200,55 @@ async function handleLogin(event) {
 async function handleRegister(event) {
   event.preventDefault();
   hideAlert();
+  clearAllErrors('register-form');
 
   const name = document.getElementById('register-name').value.trim();
   const email = document.getElementById('register-email').value.trim();
   const password = document.getElementById('register-password').value;
   const btn = document.getElementById('register-btn');
 
-  if (name.length < 2) {
-    showAlert('Name must be at least 2 characters long.', 'error');
-    return;
+  let hasError = false;
+
+  // Validate name
+  if (!name) {
+    showFieldError('register-name', 'Name is required');
+    hasError = true;
+  } else if (name.length < 2) {
+    showFieldError('register-name', 'Name must be at least 2 characters long');
+    hasError = true;
+  } else if (name.length > 50) {
+    showFieldError('register-name', 'Name must not exceed 50 characters');
+    hasError = true;
   }
 
-  if (password.length < 8) {
-    showAlert('Password must be at least 8 characters long.', 'error');
-    return;
+  // Validate email
+  if (!email) {
+    showFieldError('register-email', 'Email is required');
+    hasError = true;
+  } else if (!isValidEmail(email)) {
+    showFieldError('register-email', 'Please enter a valid email address');
+    hasError = true;
   }
 
-  if (
-    !/[A-Z]/.test(password) ||
-    !/[a-z]/.test(password) ||
-    !/\d/.test(password)
-  ) {
-    showAlert(
-      'Password must contain uppercase, lowercase, and numbers.',
-      'error',
+  // Validate password
+  if (!password) {
+    showFieldError('register-password', 'Password is required');
+    hasError = true;
+  } else if (password.length < 8) {
+    showFieldError(
+      'register-password',
+      'Password must be at least 8 characters long',
     );
-    return;
+    hasError = true;
+  } else if (!isStrongPassword(password)) {
+    showFieldError(
+      'register-password',
+      'Password must contain uppercase, lowercase, and numbers',
+    );
+    hasError = true;
   }
+
+  if (hasError) return;
 
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Creating account...';
@@ -175,7 +265,7 @@ async function handleRegister(event) {
     const data = await response.json();
 
     if (response.ok && data.success) {
-      showAlert('Account created successfully! 🎉 Please sign in.', 'success');
+      showAlert('Account created successfully! Please sign in.', 'success');
 
       setTimeout(() => {
         switchTab('login');
@@ -218,9 +308,27 @@ window.addEventListener('DOMContentLoaded', () => {
     .querySelector('form')
     .addEventListener('submit', handleRegister);
 
+  // Real-time validation - clear errors on input
+  document.getElementById('login-email').addEventListener('input', () => {
+    hideFieldError('login-email');
+  });
+
+  document.getElementById('login-password').addEventListener('input', () => {
+    hideFieldError('login-password');
+  });
+
+  document.getElementById('register-name').addEventListener('input', () => {
+    hideFieldError('register-name');
+  });
+
+  document.getElementById('register-email').addEventListener('input', () => {
+    hideFieldError('register-email');
+  });
+
   document
     .getElementById('register-password')
     .addEventListener('input', (e) => {
+      hideFieldError('register-password');
       checkPasswordStrength(e.target.value);
     });
 
