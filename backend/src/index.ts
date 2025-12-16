@@ -13,7 +13,21 @@ async function startServer() {
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on port ${PORT}`);
       console.log(`📦 Environment: ${envConfig.NODE_ENV}`);
-      console.log(`🌐 Health check: http://localhost:${PORT}/health`);
+
+      if (envConfig.NODE_ENV === 'production') {
+        const renderUrl = process.env.RENDER_EXTERNAL_URL;
+        if (renderUrl) {
+          console.log(`🌐 App URL: ${renderUrl}`);
+          console.log(`🌐 Health check: ${renderUrl}/health`);
+        } else {
+          console.log(`🌐 Server is ready to accept connections`);
+        }
+      } else {
+        console.log(
+          `🌐 Server is ready to accept connections http://localhost:${PORT}`,
+        );
+        console.log(`🌐 Health check: http://localhost:${PORT}/health`);
+      }
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);

@@ -5,10 +5,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --env-file=dev.env --poll --files --respawn src/index.ts",
+    "dev:render": "ts-node-dev --env-file=render-test.env --poll --files --respawn src/index.ts",
     "stage": "ts-node-dev --env-file=prod.env --poll --files --respawn src/index.ts",
     "prod": "ts-node-dev --poll --files --respawn src/index.ts",
     "start": "node dist/index.js",
-    "build": "tsc",
+    "build": "tsc && node -e \"require('fs').cpSync('src/public', 'dist/public', {recursive: true})\"",
     "typeorm": "typeorm-ts-node-commonjs -d ./src/config/databaseConfig.ts",
     "migration:generate": "yarn run typeorm migration:generate ./src/migrations",
     "migration:show": "yarn run typeorm migration:show",
