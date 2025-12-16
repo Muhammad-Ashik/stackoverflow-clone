@@ -20,7 +20,6 @@ import { ApiResponse, HealthCheckResponse } from './types';
 
 const app: Application = express();
 
-// Security middleware - Configure Helmet with CSP for external assets
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -38,6 +37,7 @@ app.use(
     },
   }),
 );
+
 app.use(
   cors({
     origin:
@@ -50,20 +50,15 @@ app.use(
   }),
 );
 
-// Body parsing middleware
 app.use(express.json({ limit: REQUEST.BODY_LIMIT }));
 app.use(express.urlencoded({ extended: true, limit: REQUEST.BODY_LIMIT }));
-
-// Serve static files from public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Request ID and logging
 if (envConfig.NODE_ENV !== 'test') {
   app.use(requestId);
   app.use(requestLogger);
 }
 
-// Health check endpoint
 app.get('/health', async (_req: Request, res: Response) => {
   const healthCheck: HealthCheckResponse = {
     success: true,
@@ -75,7 +70,6 @@ app.get('/health', async (_req: Request, res: Response) => {
   };
 
   try {
-    // Check database connection
     if (AppDataSource.isInitialized) {
       await AppDataSource.query('SELECT 1');
       healthCheck.database = 'connected';
@@ -94,16 +88,13 @@ app.get('/health', async (_req: Request, res: Response) => {
   res.status(statusCode).json(healthCheck);
 });
 
-// Home route
 app.get('/', (_req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// API routes
 app.use('/v1/auth', authRoutes);
 app.use('/v1/users', userRoutes);
 
-// 404 handler
 app.use((_req: Request, res: Response) => {
   const response: ApiResponse = {
     success: false,
@@ -112,7 +103,6 @@ app.use((_req: Request, res: Response) => {
   res.status(HTTP_STATUS.NOT_FOUND).json(response);
 });
 
-// Error handling middleware (must be last)
 app.use(errorHandler);
 
 export default app;

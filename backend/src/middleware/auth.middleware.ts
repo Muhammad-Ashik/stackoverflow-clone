@@ -15,7 +15,7 @@ export const authenticateToken = (
   next: NextFunction,
 ): void => {
   const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
     throw new CustomError(
@@ -24,10 +24,8 @@ export const authenticateToken = (
     );
   }
 
-  const jwtSecret = envConfig.JWT_SECRET;
-
   try {
-    const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
+    const decoded = jwt.verify(token, envConfig.JWT_SECRET) as JwtPayload;
     req.user = decoded;
     next();
   } catch (error) {

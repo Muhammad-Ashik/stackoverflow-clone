@@ -79,11 +79,9 @@ export class UserService {
 
     try {
       await this.userRepository.save(user);
-      // Remove password from returned user
       const { password: _, ...userWithoutPassword } = user;
       return userWithoutPassword as User;
     } catch (error: unknown) {
-      // Handle database constraint violations
       const dbError = error as { code?: string; constraint?: string };
       if (dbError?.code === '23505' || dbError?.constraint) {
         throw new CustomError(

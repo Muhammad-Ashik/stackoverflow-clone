@@ -12,7 +12,6 @@ export const registerUser = async (
   email: string,
   password: string,
 ): Promise<User> => {
-  // Check if user already exists
   const existingUser = await UserService.findByEmail(email);
   if (existingUser) {
     throw new CustomError(
@@ -21,7 +20,6 @@ export const registerUser = async (
     );
   }
 
-  // Create new user using service
   return await UserService.createUser({ name, email, password });
 };
 
@@ -29,7 +27,6 @@ export const loginUser = async (
   email: string,
   password: string,
 ): Promise<string> => {
-  // Find user with password
   const user = await UserService.findByEmailWithPassword(email);
 
   if (!user) {
@@ -39,7 +36,6 @@ export const loginUser = async (
     );
   }
 
-  // Verify password
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
     throw new CustomError(
@@ -48,7 +44,6 @@ export const loginUser = async (
     );
   }
 
-  // Generate JWT token
   const payload: JwtPayload = {
     id: user.id,
     name: user.name,

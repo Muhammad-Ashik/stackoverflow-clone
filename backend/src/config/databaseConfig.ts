@@ -9,26 +9,14 @@ const poolConfig = isProduction
 
 const AppDataSource = new DataSource({
   type: 'postgres',
-  ...(isProduction && envConfig.DB_URL
-    ? {
-        url: envConfig.DB_URL,
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      }
-    : {
-        host: envConfig.DB_HOST,
-        port: envConfig.DB_PORT,
-        username: envConfig.DB_USER,
-        password: envConfig.DB_PASSWORD,
-        database: envConfig.DB,
-      }),
+  url: envConfig.DATABASE_URL,
   synchronize: false,
   logging: envConfig.NODE_ENV === 'development',
   entities: isProduction ? ['dist/entities/**/*.js'] : ['src/entities/**/*.ts'],
   migrations: isProduction
     ? ['dist/migrations/**/*.js']
     : ['src/migrations/**/*.ts'],
+  ssl: isProduction ? { rejectUnauthorized: false } : false,
   extra: {
     max: poolConfig.MAX,
     min: poolConfig.MIN,

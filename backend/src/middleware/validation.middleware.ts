@@ -10,7 +10,6 @@ export function validateDto<T extends object>(dtoClass: ClassConstructor<T>) {
     res: Response,
     next: NextFunction,
   ): Promise<void> => {
-    // Check if request body exists
     if (!req.body || Object.keys(req.body).length === 0) {
       const response: ApiResponse = {
         success: false,

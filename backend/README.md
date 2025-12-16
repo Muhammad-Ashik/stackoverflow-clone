@@ -69,15 +69,11 @@ cp .env.example dev.env
 Update `dev.env` with your configuration:
 
 ```env
-# Database
-DB_HOST=stackoverflow-db
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=your_secure_password
-DB=stackoverflow_db
+# Server
+PORT=4000
 
-# Backend
-BACKEND_PORT=4000
+# Database (PostgreSQL connection string)
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/stackoverflow_db
 
 # JWT (IMPORTANT: Change in production!)
 JWT_SECRET=your-super-secret-jwt-key-min-32-characters
@@ -88,6 +84,11 @@ NODE_ENV=development
 
 # CORS
 CORS_ORIGIN=*
+
+# PostgreSQL Container (Docker only)
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=stackoverflow_db
 ```
 
 ## 🐳 Running with Docker (Recommended)
@@ -128,11 +129,10 @@ Make sure PostgreSQL is running on your system.
 
 ### 2. Update Environment
 
-Update `dev.env` with local database credentials:
+Update `dev.env` with local database connection:
 
 ```env
-DB_HOST=localhost
-DB_PORT=5432
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/stackoverflow_db
 ```
 
 ### 3. Run Migrations
@@ -339,9 +339,10 @@ Create `prod.env` with production values:
 
 ```env
 NODE_ENV=production
+PORT=4000
+DATABASE_URL=postgresql://user:password@host:5432/database
 JWT_SECRET=<strong-random-secret-min-64-chars>
 CORS_ORIGIN=https://yourdomain.com,https://www.yourdomain.com
-DB_URL=postgresql://user:password@host:5432/database
 ```
 
 ### 2. Build Docker Image
