@@ -1,22 +1,23 @@
 import { DataSource } from 'typeorm';
 import { DATABASE } from '../constants';
-import { envConfig } from './env.config';
+import { isDevelopment, isProduction } from '../utils';
 
-const isProduction = envConfig.NODE_ENV === 'production';
-const poolConfig = isProduction
+const poolConfig = isProduction()
   ? DATABASE.CONNECTION_POOL.PRODUCTION
   : DATABASE.CONNECTION_POOL.DEVELOPMENT;
 
 const AppDataSource = new DataSource({
   type: 'postgres',
-  url: envConfig.DATABASE_URL,
+  url: process.env.DATABASE_URL,
   synchronize: false,
-  logging: envConfig.NODE_ENV === 'development',
-  entities: isProduction ? ['dist/entities/**/*.js'] : ['src/entities/**/*.ts'],
-  migrations: isProduction
+  logging: isDevelopment(),
+  entities: isProduction()
+    ? ['dist/entities/**/*.js']
+    : ['src/entities/**/*.ts'],
+  migrations: isProduction()
     ? ['dist/migrations/**/*.js']
     : ['src/migrations/**/*.ts'],
-  ssl: isProduction ? { rejectUnauthorized: false } : false,
+  ssl: isProduction() ? { rejectUnauthorized: false } : false,
   extra: {
     max: poolConfig.MAX,
     min: poolConfig.MIN,

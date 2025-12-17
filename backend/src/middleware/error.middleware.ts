@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import { envConfig } from '../config/env.config';
+import { NextFunction, Request, Response } from 'express';
 import { ERROR_MESSAGES, HTTP_STATUS } from '../constants';
 import { ApiResponse } from '../types';
+import { isDevelopment } from '../utils';
 
 export interface AppError extends Error {
   statusCode?: number;
@@ -35,7 +35,7 @@ export const errorHandler = (
   const response: ApiResponse = {
     success: false,
     message,
-    ...(envConfig.NODE_ENV === 'development' && { errors: [err.stack || ''] }),
+    ...(isDevelopment() && { errors: [err.stack || ''] }),
   };
 
   res.status(statusCode).json(response);

@@ -1,6 +1,7 @@
 import app from './app';
 import AppDataSource from './config/databaseConfig';
 import { envConfig } from './config/env.config';
+import { isProduction } from './utils';
 
 const PORT = envConfig.PORT;
 
@@ -14,7 +15,7 @@ async function startServer() {
       console.log(`🚀 Server is running on port ${PORT}`);
       console.log(`📦 Environment: ${envConfig.NODE_ENV}`);
 
-      if (envConfig.NODE_ENV === 'production') {
+      if (isProduction()) {
         const renderUrl = process.env.RENDER_EXTERNAL_URL;
         if (renderUrl) {
           console.log(`🌐 App URL: ${renderUrl}`);

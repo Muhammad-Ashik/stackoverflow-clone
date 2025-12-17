@@ -17,6 +17,7 @@ import { requestId, requestLogger } from './middleware/logger.middleware';
 import authRoutes from './routes/auth/auth';
 import userRoutes from './routes/users/users';
 import { ApiResponse, HealthCheckResponse } from './types';
+import { isProduction, isTest } from './utils';
 
 const app: Application = express();
 
@@ -40,10 +41,9 @@ app.use(
 
 app.use(
   cors({
-    origin:
-      envConfig.NODE_ENV === 'production'
-        ? envConfig.CORS_ORIGIN?.split(',') || []
-        : envConfig.CORS_ORIGIN || '*',
+    origin: isProduction()
+      ? envConfig.CORS_ORIGIN?.split(',') || []
+      : envConfig.CORS_ORIGIN || '*',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -54,7 +54,7 @@ app.use(express.json({ limit: REQUEST.BODY_LIMIT }));
 app.use(express.urlencoded({ extended: true, limit: REQUEST.BODY_LIMIT }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-if (envConfig.NODE_ENV !== 'test') {
+if (!isTest()) {
   app.use(requestId);
   app.use(requestLogger);
 }
