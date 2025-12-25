@@ -1,10 +1,10 @@
-import { DataSource } from 'typeorm';
-import { DATABASE } from '../constants';
-import { isDevelopment, isProduction } from '../utils';
+import { DataSource } from 'typeorm'
+import { DATABASE } from '../constants'
+import { isDevelopment, isProduction } from '../utils'
 
 const poolConfig = isProduction()
   ? DATABASE.CONNECTION_POOL.PRODUCTION
-  : DATABASE.CONNECTION_POOL.DEVELOPMENT;
+  : DATABASE.CONNECTION_POOL.DEVELOPMENT
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -25,6 +25,6 @@ const AppDataSource = new DataSource({
     connectionTimeoutMillis: DATABASE.CONNECTION_POOL.CONNECTION_TIMEOUT,
     maxIdleTime: DATABASE.CONNECTION_POOL.MAX_IDLE_TIME,
   },
-});
+})
 
-export default AppDataSource;
+export default AppDataSource

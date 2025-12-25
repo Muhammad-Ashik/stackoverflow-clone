@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm'
 
 export class Migration1721244824627 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -10,10 +10,10 @@ export class Migration1721244824627 implements MigrationInterface {
                 "password" VARCHAR NOT NULL,
                 "googleId" VARCHAR
             )
-        `);
+        `)
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP TABLE IF EXISTS "user"`);
+    await queryRunner.query(`DROP TABLE IF EXISTS "user"`)
   }
 }

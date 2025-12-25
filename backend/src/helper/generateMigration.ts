@@ -1,18 +1,18 @@
-import { execSync } from 'child_process';
+import { execSync } from 'child_process'
 
-const migrationName = process.argv[2];
+const migrationName = process.argv[2]
 
 if (!migrationName) {
-  console.error('Please provide a migration name.');
-  process.exit(1);
+  console.error('Please provide a migration name.')
+  process.exit(1)
 }
 
 try {
   execSync(
     `yarn run typeorm migration:generate ./src/migrations/${migrationName}`,
     { stdio: 'inherit' },
-  );
-  console.log('Migration generated successfully.');
+  )
+  console.log('Migration generated successfully.')
 } catch (error) {
-  console.error('Error generating migration:', (error as Error).message);
+  console.error('Error generating migration:', (error as Error).message)
 }

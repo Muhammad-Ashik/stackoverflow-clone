@@ -1,8 +1,8 @@
-import pluginJs from '@eslint/js';
-import eslintConfigPrettier from 'eslint-config-prettier';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import pluginJs from '@eslint/js'
+import eslintConfigPrettier from 'eslint-config-prettier'
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
 
 export default [
   {
@@ -36,7 +36,7 @@ export default [
           arrowParens: 'always',
           bracketSameLine: false,
           bracketSpacing: true,
-          semi: true,
+          semi: false,
           experimentalTernaries: false,
           singleQuote: true,
           jsxSingleQuote: false,
@@ -75,4 +75,4 @@ export default [
       '@typescript-eslint/no-unused-vars': 'off',
     },
   },
-];
+]

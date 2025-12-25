@@ -10,24 +10,24 @@ export const HTTP_STATUS = {
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500,
   SERVICE_UNAVAILABLE: 503,
-} as const;
+} as const
 
 export const PAGINATION = {
   DEFAULT_PAGE: 1,
   DEFAULT_LIMIT: 10,
   MAX_LIMIT: 100,
   MIN_LIMIT: 1,
-} as const;
+} as const
 
 export const PASSWORD = {
   MIN_LENGTH: 8,
   BCRYPT_ROUNDS: 10,
   BCRYPT_PREFIX: '$2',
-} as const;
+} as const
 
 export const JWT = {
   DEFAULT_EXPIRY: '7d',
-} as const;
+} as const
 
 export const DATABASE = {
   CONNECTION_POOL: {
@@ -43,11 +43,11 @@ export const DATABASE = {
     CONNECTION_TIMEOUT: 2000,
     MAX_IDLE_TIME: 10000,
   },
-} as const;
+} as const
 
 export const REQUEST = {
   BODY_LIMIT: '10mb',
-} as const;
+} as const
 
 export const ERROR_MESSAGES = {
   AUTH: {
@@ -73,7 +73,7 @@ export const ERROR_MESSAGES = {
     ROUTE_NOT_FOUND: 'Route not found',
     DB_CONNECTION_FAILED: 'Database connection failed',
   },
-} as const;
+} as const
 
 export const SUCCESS_MESSAGES = {
   USER: {
@@ -83,4 +83,4 @@ export const SUCCESS_MESSAGES = {
   HEALTH: {
     OK: 'Server is healthy',
   },
-} as const;
+} as const

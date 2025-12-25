@@ -4,5 +4,5 @@ export {
   isProduction,
   isStaging,
   isTest,
-} from './env.util';
-export { TransactionManager, withTransaction } from './transaction.util';
+} from './env.util'
+export { TransactionManager, withTransaction } from './transaction.util'

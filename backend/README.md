@@ -293,9 +293,9 @@ backend/
 For operations that require multiple database updates to succeed or fail together, use the `withTransaction` utility:
 
 ```typescript
-import { withTransaction } from '../utils';
-import { User } from '../entities/User';
-import { Profile } from '../entities/Profile';
+import { withTransaction } from '../utils'
+import { User } from '../entities/User'
+import { Profile } from '../entities/Profile'
 
 // Example: Creating a user and profile atomically
 const result = await withTransaction(async (queryRunner) => {
@@ -304,15 +304,15 @@ const result = await withTransaction(async (queryRunner) => {
     name: 'John Doe',
     email: 'john@example.com',
     password: 'hashedPassword',
-  });
+  })
 
   const profile = await queryRunner.manager.save(Profile, {
     userId: user.id,
     bio: 'Software Developer',
-  });
+  })
 
-  return { user, profile };
-});
+  return { user, profile }
+})
 ```
 
 **Benefits:**
